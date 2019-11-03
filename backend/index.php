@@ -3,3 +3,5 @@
 // phpinfo();
 
 echo "PHP Works";
+
+phpinfo();
