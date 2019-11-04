@@ -1,94 +1,157 @@
-import React from "react";
-import {
-  format,
-  startOfWeek,
-  addDays,
-  startOfMonth,
-  endOfMonth,
-  endOfWeek,
-  isSameMonth,
-  isSameDay
-} from "date-fns";
+// import React from "react";
+// import {
+//   format,
+//   startOfWeek,
+//   addDays,
+//   startOfMonth,
+//   endOfMonth,
+//   endOfWeek,
+//   isSameMonth,
+//   isSameDay
+// } from "date-fns";
 
-import "./styles.css";
+// import "./styles.css";
 
-class Calendar extends React.Component {
-  renderDays = () => {
-    const dateFormat = "E";
-    const days = [];
-    const startDate = startOfWeek(new Date("August 2025"));
+// class Calendar extends React.Component {
+//   constructor(props) {
+//     super(props);
 
-    for (let i = 0; i < 7; i++) {
-      days.push(
-        <div className="col col-center" key={i}>
-          {format(addDays(startDate, i), dateFormat)}
-        </div>
-      );
-    }
+//     this.state = {
+//       error: null,
+//       isLoaded: false,
+//       reserved: []
+//     };
+//   }
 
-    return <div className="days row">{days}</div>;
-  };
+//   componentDidMount() {
+//     fetch(
+//       "https://demo14.secure.retreat.guru/api/v1/registrations?token=ef061e1a717568ee5ca5c76a94cf5842"
+//     )
+//       .then(res => res.json())
+//       .then(
+//         result => {
+//           const reservedDays = result.filter(item => {
+//             return item.room === 'Room 5';
+//           });
 
-  renderCells = () => {
-    const selectedDate = new Date();
+//           this.setState({
+//             reserved: reservedDays
+//           });
+//         },
+//         // Note: it's important to handle errors here
+//         // instead of a catch() block so that we don't swallow
+//         // exceptions from actual bugs in components.
+//         error => {
+//           this.setState({
+//             isLoaded: true,
+//             error
+//           });
+//         }
+//       );
+//   }
 
-    const monthStart = startOfMonth(new Date("August 2025"));
-    const monthEnd = endOfMonth(monthStart);
-    const startDate = startOfWeek(monthStart);
-    const endDate = endOfWeek(monthEnd);
+//   renderDays = () => {
+//     const dateFormat = "E";
+//     const days = [];
+//     const startDate = startOfWeek(new Date("August 2025"));
 
-    const dateFormat = "d";
-    const rows = [];
+//     for (let i = 0; i < 7; i++) {
+//       days.push(
+//         <div className="col col-center" key={i}>
+//           {format(addDays(startDate, i), dateFormat)}
+//         </div>
+//       );
+//     }
 
-    let days = [];
-    let day = startDate;
-    let formattedDate = "";
+//     return <div className="days row">{days}</div>;
+//   };
 
-    while (day <= endDate) {
-      for (let i = 0; i < 7; i++) {
-        formattedDate = format(day, dateFormat);
-        days.push(
-          <div
-            className={`col cell ${
-              !isSameMonth(day, monthStart)
-                ? "disabled"
-                : isSameDay(day, selectedDate)
-            }`}
-            key={day}
-            // onMouseEnter={() => this.onDateHover()}
-          >
-            <span className="number">{formattedDate}</span>
-            <span className="bg">{formattedDate}</span>
-          </div>
-        );
+//   renderCells = () => {
 
-        day = addDays(day, 1);
-      }
+//     const { reserved } = this.state;
+//     const monthStart = startOfMonth(new Date("August 2025"));
+//     const monthEnd = endOfMonth(monthStart);
+//     const startDate = startOfWeek(monthStart);
+//     const endDate = endOfWeek(monthEnd);
 
-      rows.push(
-        <div className="row" key={day}>
-          {days}
-        </div>
-      );
+//     const dateFormat = "d";
+//     const rows = [];
 
-      days = [];
-    }
+//     let days = [];
+//     let day = startDate;
+//     let formattedDate = "";
 
-    return <div className="body">{rows}</div>;
-  };
+//     while (day <= endDate) {
+//       for (let i = 0; i < 7; i++) {
+//         formattedDate = format(day, dateFormat);
 
-  // onDateHover = () => {
-  //   alert('hover');
-  // }
+//         reserved.map( (item, index) => {
+//           console.log(item);
 
-  render() {
-    return (
-      <div className="calendar">
-        {this.renderDays()}
-        {this.renderCells()}
-      </div>
-    );
-  }
+//           days.push(
+//           <div
+//             className={`col cell ${
+//               !isSameMonth(day, monthStart) ? "hidden" : ""
+//             }`}
+//             key={day} // onMouseEnter={() => this.onDateHover()}
+//           >
+//             <span className="number">{formattedDate}</span>
+//             {/* <span className="bg">{formattedDate}</span> */}
+//           </div>
+//         );
+//         })
+
+        
+
+//         day = addDays(day, 1);
+//       }
+
+//       rows.push(
+//         <div className="row" key={day}>
+//           {days}
+//         </div>
+//       );
+
+//       days = [];
+//     }
+
+//     return <div className="body">{rows}</div>;
+//   };
+
+//   // onDateHover = () => {
+//   //   alert('hover');
+//   // }
+
+//   render() {
+//     return (
+//       <div className="calendar">
+//         {this.renderDays()}
+//         {this.renderCells()}
+//       </div>
+//     );
+//   }
+// }
+
+// export default Calendar;
+
+
+import React from 'react';
+import DayPicker from 'react-day-picker';
+import 'react-day-picker/lib/style.css';
+
+export default function Example() {
+  return (
+    <DayPicker
+      initialMonth={new Date(2025, 7)}
+      selectedDays={[
+        new Date(2025, 7, 12),
+        new Date(2025, 7, 2),
+        {
+          after: new Date(2025, 7, 20),
+          before: new Date(2025, 7, 25),
+        },
+      ]}
+    />
+  );
 }
 
-export default Calendar;

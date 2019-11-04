@@ -7,9 +7,7 @@ export default () => {
       <div className="app">
         <header>
           <div id="logo">
-            <span>
-              react<b>calendar</b>
-            </span>
+              <span>August 2025</span>
           </div>
         </header>
         <main>
