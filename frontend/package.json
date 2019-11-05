@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "date-fns": "^2.6.0",
+    "moment": "^2.24.0",
+    "node-sass": "^4.13.0",
     "react": "^16.11.0",
     "react-day-picker": "^7.4.0",
     "react-dom": "^16.11.0",

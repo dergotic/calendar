@@ -1,157 +1,71 @@
-// import React from "react";
-// import {
-//   format,
-//   startOfWeek,
-//   addDays,
-//   startOfMonth,
-//   endOfMonth,
-//   endOfWeek,
-//   isSameMonth,
-//   isSameDay
-// } from "date-fns";
+import React from "react";
+import moment from "moment";
 
-// import "./styles.css";
+import DayNames from "./dayNames";
+import Week from "./week";
 
-// class Calendar extends React.Component {
-//   constructor(props) {
-//     super(props);
+import "./styles.scss";
 
-//     this.state = {
-//       error: null,
-//       isLoaded: false,
-//       reserved: []
-//     };
-//   }
+export default class Calendar extends React.Component {
+  constructor(props) {
+    super(props);
 
-//   componentDidMount() {
-//     fetch(
-//       "https://demo14.secure.retreat.guru/api/v1/registrations?token=ef061e1a717568ee5ca5c76a94cf5842"
-//     )
-//       .then(res => res.json())
-//       .then(
-//         result => {
-//           const reservedDays = result.filter(item => {
-//             return item.room === 'Room 5';
-//           });
+    this.state = {
+      month: moment('2025-08'),
+      selected: moment().startOf("day")
+    };
+  }
 
-//           this.setState({
-//             reserved: reservedDays
-//           });
-//         },
-//         // Note: it's important to handle errors here
-//         // instead of a catch() block so that we don't swallow
-//         // exceptions from actual bugs in components.
-//         error => {
-//           this.setState({
-//             isLoaded: true,
-//             error
-//           });
-//         }
-//       );
-//   }
+  renderWeeks() {
+    let weeks = [];
+    let done = false;
+    let date = this.state.month
+      .clone()
+      .startOf("month")
+      .add("w" - 1)
+      .day("Sunday");
+    let count = 0;
+    let monthIndex = date.month();
 
-//   renderDays = () => {
-//     const dateFormat = "E";
-//     const days = [];
-//     const startDate = startOfWeek(new Date("August 2025"));
+    const { selected, month } = this.state;
 
-//     for (let i = 0; i < 7; i++) {
-//       days.push(
-//         <div className="col col-center" key={i}>
-//           {format(addDays(startDate, i), dateFormat)}
-//         </div>
-//       );
-//     }
+    while (!done) {
+      weeks.push(
+        <Week
+          key={date}
+          date={date.clone()}
+          month={month}
+          select={day => this.select(day)}
+          selected={selected}
+        />
+      );
 
-//     return <div className="days row">{days}</div>;
-//   };
+      date.add(1, "w");
 
-//   renderCells = () => {
+      done = count++ > 2 && monthIndex !== date.month();
+      monthIndex = date.month();
+    }
 
-//     const { reserved } = this.state;
-//     const monthStart = startOfMonth(new Date("August 2025"));
-//     const monthEnd = endOfMonth(monthStart);
-//     const startDate = startOfWeek(monthStart);
-//     const endDate = endOfWeek(monthEnd);
+    return weeks;
+  }
 
-//     const dateFormat = "d";
-//     const rows = [];
+  renderMonthLabel() {
+    const { month } = this.state;
 
-//     let days = [];
-//     let day = startDate;
-//     let formattedDate = "";
+    return <span className="month-label">{month.format("MMMM YYYY")}</span>;
+  }
 
-//     while (day <= endDate) {
-//       for (let i = 0; i < 7; i++) {
-//         formattedDate = format(day, dateFormat);
-
-//         reserved.map( (item, index) => {
-//           console.log(item);
-
-//           days.push(
-//           <div
-//             className={`col cell ${
-//               !isSameMonth(day, monthStart) ? "hidden" : ""
-//             }`}
-//             key={day} // onMouseEnter={() => this.onDateHover()}
-//           >
-//             <span className="number">{formattedDate}</span>
-//             {/* <span className="bg">{formattedDate}</span> */}
-//           </div>
-//         );
-//         })
-
-        
-
-//         day = addDays(day, 1);
-//       }
-
-//       rows.push(
-//         <div className="row" key={day}>
-//           {days}
-//         </div>
-//       );
-
-//       days = [];
-//     }
-
-//     return <div className="body">{rows}</div>;
-//   };
-
-//   // onDateHover = () => {
-//   //   alert('hover');
-//   // }
-
-//   render() {
-//     return (
-//       <div className="calendar">
-//         {this.renderDays()}
-//         {this.renderCells()}
-//       </div>
-//     );
-//   }
-// }
-
-// export default Calendar;
-
-
-import React from 'react';
-import DayPicker from 'react-day-picker';
-import 'react-day-picker/lib/style.css';
-
-export default function Example() {
-  return (
-    <DayPicker
-      initialMonth={new Date(2025, 7)}
-      selectedDays={[
-        new Date(2025, 7, 12),
-        new Date(2025, 7, 2),
-        {
-          after: new Date(2025, 7, 20),
-          before: new Date(2025, 7, 25),
-        },
-      ]}
-    />
-  );
+  render() {
+    return (
+      <section className="calendar">
+        <header className="header">
+          <div className="month-display row">
+            {this.renderMonthLabel()}
+          </div>
+          <DayNames />
+        </header>
+        {this.renderWeeks()}
+      </section>
+    );
+  }
 }
-
