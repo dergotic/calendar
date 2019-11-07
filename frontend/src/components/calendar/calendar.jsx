@@ -7,8 +7,8 @@ class Calendar extends React.Component {
 
     this.state = {
       events: [],
-      showPendingRegistrations: true,
-      eventStatus: ''
+      showPendingRegistrations: false,
+      eventStatus: ""
     };
   }
 
@@ -42,6 +42,7 @@ class Calendar extends React.Component {
   }
 
   renderDays = () => {
+    console.log("in render days method");
     const numberOfDays = new Date(2025, 8, 0).getDate();
     let days = [];
 
@@ -88,22 +89,23 @@ class Calendar extends React.Component {
       return a.date - b.date;
     });
 
-    console.log(byDate);
-
-    //  style={{'backgroundColor': status === 'approved' ? 'blue' : status === 'pending' ? 'black' : 'red'}}>
-
     let className;
+
+    console.log(
+      "this.state.showPendingRegistrations:: ",
+      this.state.showPendingRegistrations
+    );
 
     for (let i = 0; i < byDate.length; i++) {
       if (
         byDate[i].start_date !== "" &&
-        !this.state.showPendingRegistrations &&
+        this.state.showPendingRegistrations === false &&
         byDate[i].status === "active"
       ) {
         className = "occupied";
       } else if (
         byDate[i].start_date !== "" &&
-        this.state.showPendingRegistrations &&
+        this.state.showPendingRegistrations === true &&
         byDate[i].status === "pending"
       ) {
         className = "pending";
@@ -112,19 +114,27 @@ class Calendar extends React.Component {
       }
 
       days.push(
-        <button key={i} className={className}>
-          <time dateTime={"2025-08-" + i + 1}>{i + 1}</time>
+        <button key={i} className={className + " tooltip"}>
+          {i + 1}
+          <time dateTime={"2025-08-" + i + 1} className="tooltiptext">
+            {byDate[i].name}
+          </time>
         </button>
       );
     }
-
     return days;
   };
 
   handleChangeChk = () => {
-    this.setState({
-      showPendingRegistrations: true
-    });
+    if (this.state.showPendingRegistrations) {
+      this.setState({
+        showPendingRegistrations: false
+      });
+    } else {
+      this.setState({
+        showPendingRegistrations: true
+      });
+    }
   };
 
   render() {
