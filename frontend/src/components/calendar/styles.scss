@@ -1,109 +1,117 @@
-//variables & mixins
-$white: #FFFFFF;
-$ltGrey: #EFEFEF;
-$mdGrey: #C0C0C0;
-$dkGrey: #CCCCCC;
-$secondary:#2875C7;
-$dkSecondary: darken($secondary,10%);
-$ltSecondary: lighten($secondary,45%);
-$borderColor: $dkGrey;
-$background: $white;
-
-.vertical-center {
-  display: flex;
-  justify-content:center;
-  align-items: center;
-}
-
-html {
-    font-size: 62.5%;
-}
-
-body {
-    background: $ltGrey;
-}
-
-.row {
-    display: flex;
-    width: 100%;
-}
-
-.calendar {
-    display: block;
-    background:$white;
-    width: 300px;
-    border: solid 1px $borderColor;
-    margin: 10px auto;
-    box-shadow: 0 0 15px 0 $mdGrey;
-    font-size: 1.3rem;
+// Colors used
+:root {
+    --teal-050: #effcf6;
+    --teal-100: #c6f7e2;
+    --teal-200: #8eedc7;
+    --teal-300: #65d6ad;
+    --teal-400: #3ebd93;
+    --teal-500: #27ab83;
+    --teal-600: #199473;
+    --teal-700: #147d64;
+    --teal-800: #0c6b58;
+    --teal-900: #014d40;
+  
+    --blue-grey-050: #f0f4f8;
+    --blue-grey-100: #d9e2ec;
+    --blue-grey-200: #bcccdc;
+    --blue-grey-300: #9fb3c8;
+    --blue-grey-400: #829ab1;
+    --blue-grey-500: #627d98;
+    --blue-grey-600: #486581;
+    --blue-grey-700: #334e68;
+    --blue-grey-800: #243b53;
+    --blue-grey-900: #102a43;
+  }
+  
+  html {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 125%;
+    line-height: 1.4;
+    font-weight: 400;
+    color: var(--blue-grey-900);
+  }
+  
+  body {
+    min-height: 100vh;
+    background: var(--blue-grey-100);
+  }
+  
+  main {
+    max-width: max-content;
+    margin: 3em auto 0 auto;
+    padding: 1.5em;
+    background-color: #fff;
+    border: 2px solid var(--blue-grey-200);
+    border-radius: 8px;
+  }
+  
+  // For the month
+  .month-indicator {
+    color: var(--blue-grey-700);
     text-align: center;
-
-    header {
-        color: $white;
-        cursor: default;
-        font-size:1.4rem;
-        display: block;
-        font-weight: bold;
-        text-transform: uppercase;
-        user-select: none;
-        
-        .month-display {
-            align-items: center;
-            height: 40px;
-            background: $secondary;
-        }
-
-        .month-label { 
-           flex: 1;
-        }
-      
-    }
+    font-weight: 500;
+  }
   
-    .week {
-        border-top: solid 1px $borderColor;
-
-        &:first-child {
-            border-top: none;
-        }
-    }
+  // CSS grid used for the dates
+  .day-of-week,
+  .date-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+  }
   
-    .day-names {
-        color: $secondary;
-        font-weight: bold;
-        cursor: default;
-        font-size: 1.2rem;
-        
-        .day {
-            cursor: default;
-            
-            &:hover {
-                background: inherit;
-
-            }
-        }
-    }
+  // Styles for the weekday/weekend header
+  .day-of-week {
+    margin-top: 1.25em;
+  }
   
-    .day {
-        flex: 1;
-        height: 35px;
-        border-left: solid 1px $borderColor;
-        transition: all 0.5s;
+  .day-of-week > * {
+    font-size: 0.7em;
+    color: var(--blue-grey-400);
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    font-variant: small-caps;
+    text-align: center;
+  }
+  
+  /* Dates */
+  .date-grid {
+    margin-top: 0.5em;
+  }
+  
+  /* Positioning the first day */
+  .date-grid button:first-child {
+    grid-column: 6;
+  }
+  
+  // Style for each day
+  .date-grid button {
+    position: relative;
+    border: 1px solid;
+    width: 90%;
+    height: 90%;
+    background-color: transparent;
+    color: var(--blue-grey-600);
+    margin: 20px;
+  }
 
-        &:hover {
-            background: $ltGrey;
-        }
+  .date-grid button.occupied {
+    background: #829ab1;
+  }
 
-        &:first-child {
-            border-left:none;
-        }
-
-        &.different-month {
-            color: $mdGrey;
-        }
-
-        &.selected {
-            background: $secondary;
-            color: $white;
-        }
-    }
-}
+  .date-grid button.pending {
+    background: #65d6ad;
+  }
+  
+  .date-grid button:hover,
+  .date-grid button:focus {
+    outline: none;
+    background-color: var(--blue-grey-050);
+    color: var(--blue-grey-700);
+  }
+  
+  .date-grid button:active,
+  .date-grid button.is-selected {
+    background-color: var(--teal-100);
+    color: var(--teal-900);
+  }
+  

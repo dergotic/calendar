@@ -1,18 +1,16 @@
 import React from "react";
-import Calendar from "../calendar/component";
 import "./styles.css";
+import Calendar from "../calendar/calendar"
+
 
 export default () => {
-    return (
-      <div className="app">
-        <header>
-          <div id="logo">
-              <span>August 2025</span>
-          </div>
-        </header>
-        <main>
-          <Calendar />
-        </main>
-      </div>
-    );
-  }
+  return (
+    <div className="app">
+      <header>
+      </header>
+      <main>
+        <Calendar />
+      </main>
+    </div>
+  );
+};
