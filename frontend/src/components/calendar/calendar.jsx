@@ -13,36 +13,23 @@ class Calendar extends React.Component {
   }
 
   componentDidMount() {
-    const event = [
-      {
-        start_date: "2025-08-3",
-        end_date: "2025-08-4",
-        name: "test event",
-        status: "active"
-      },
-
-      {
-        start_date: "2025-08-10",
-        end_date: "2025-08-12",
-        name: "test event",
-        status: "active"
-      },
-
-      {
-        start_date: "2025-08-15",
-        end_date: "2025-08-16",
-        name: "test event",
-        status: "pending"
-      }
-    ];
-
-    this.setState({
-      events: event
-    });
+    fetch(
+      "https://demo14.secure.retreat.guru/api/v1/registrations?token=ef061e1a717568ee5ca5c76a94cf5842"
+    )
+      .then(res => res.json())
+      .then(
+        result => {
+          this.setState({
+            events: result
+          });
+        },
+        error => {
+          console.log("handle error");
+        }
+      );
   }
 
   renderDays = () => {
-    console.log("in render days method");
     const numberOfDays = new Date(2025, 8, 0).getDate();
     let days = [];
 
@@ -58,8 +45,9 @@ class Calendar extends React.Component {
             date: new Date("2025-08-" + i),
             start_date: events[j].start_date,
             end_date: events[j].end_date,
-            name: events[j].name,
-            status: events[j].status
+            full_name: events[j].full_name,
+            status: events[j].status,
+            room_id: events[j].room_id
           });
           break;
         }
@@ -69,8 +57,9 @@ class Calendar extends React.Component {
         date: new Date("2025-08-" + i),
         start_date: "",
         end_date: "",
-        name: "",
-        status: ""
+        full_name: "",
+        status: "",
+        room_id: ""
       });
     }
 
@@ -91,18 +80,11 @@ class Calendar extends React.Component {
 
     let className;
 
-    console.log(
-      "this.state.showPendingRegistrations:: ",
-      this.state.showPendingRegistrations
-    );
+    console.log('by date: ',byDate);
 
     for (let i = 0; i < byDate.length; i++) {
-      if (
-        byDate[i].start_date !== "" &&
-        this.state.showPendingRegistrations === false &&
-        byDate[i].status === "active"
-      ) {
-        className = "occupied";
+      if (byDate[i].start_date !== "" && byDate[i].status === "reserved") {
+        className = "reserved";
       } else if (
         byDate[i].start_date !== "" &&
         this.state.showPendingRegistrations === true &&
@@ -116,8 +98,16 @@ class Calendar extends React.Component {
       days.push(
         <button key={i} className={className + " tooltip"}>
           {i + 1}
-          <time dateTime={"2025-08-" + i + 1} className="tooltiptext">
-            {byDate[i].name} 12
+          <time
+            dateTime={"2025-08-" + i + 1}
+            className={byDate[i].start_date ? "tooltiptext" : ""}
+          >
+            <span style={{ display: className ? "block" : "none" }}>
+              <strong>Start Date: </strong> {byDate[i].start_date} <br />
+              <strong>End Date:</strong> {byDate[i].end_date} <br />
+              <strong>Name: </strong> {byDate[i].full_name} <br />
+              <strong>Status: </strong> {byDate[i].status}
+            </span>
           </time>
         </button>
       );

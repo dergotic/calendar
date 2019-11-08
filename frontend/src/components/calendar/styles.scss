@@ -94,7 +94,7 @@ main {
   margin: 20px;
 }
 
-.date-grid button.occupied {
+.date-grid button.reserved {
   background: #829ab1;
 }
 
@@ -123,17 +123,18 @@ main {
 
 .tooltip .tooltiptext {
   visibility: hidden;
-  width: 120px;
+  width: 200px;
+  // height: 100px;
   background-color: #555;
   color: #fff;
   text-align: center;
   border-radius: 6px;
-  padding: 5px 0;
+  padding: 15px 0;
   position: absolute;
   z-index: 1;
   bottom: 125%;
-  left: 50%;
-  margin-left: -60px;
+  left: 0%;
+  margin-left: -70px;
   opacity: 0;
   transition: opacity 0.3s;
 }
@@ -149,7 +150,8 @@ main {
   border-color: #555 transparent transparent transparent;
 }
 
-.tooltip:hover .tooltiptext {
+.reserved.tooltip:hover .tooltiptext,
+.pending.tooltip:hover .tooltiptext {
   visibility: visible;
   opacity: 1;
 }
