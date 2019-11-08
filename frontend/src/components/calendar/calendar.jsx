@@ -117,7 +117,7 @@ class Calendar extends React.Component {
         <button key={i} className={className + " tooltip"}>
           {i + 1}
           <time dateTime={"2025-08-" + i + 1} className="tooltiptext">
-            {byDate[i].name}
+            {byDate[i].name} 12
           </time>
         </button>
       );
