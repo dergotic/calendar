@@ -36,9 +36,9 @@ class Calendar extends React.Component {
 
     for (let i = 1; i <= numberOfDays; i++) {
       for (let j = 0; j < events.length; j++) {
-        if (events[j].start_date === '2025-08-' + x) {
+        if (events[j].start_date === '2025-08-' + i) {
           ocupiedDays.push({
-            date: new Date('2025-08-' + x),
+            date: new Date('2025-08-' + i),
             start_date: events[j].start_date,
             end_date: events[j].end_date,
             full_name: events[j].full_name,
@@ -50,7 +50,7 @@ class Calendar extends React.Component {
       }
 
       freeDays.push({
-        date: new Date('2025-08-' + x),
+        date: new Date('2025-08-' + i),
         start_date: '',
         end_date: '',
         full_name: '',
